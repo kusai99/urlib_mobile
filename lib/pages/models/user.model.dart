@@ -9,16 +9,18 @@ class User {
   final String lname;
   final String password;
   final List modelData;
+  String? imgLink;
   // final String imgFile;
 
-  User({
-    required this.matric,
-    required this.password,
-    required this.fname,
-    required this.lname,
-    required this.modelData,
-    // required this.imgFile,
-  });
+  User(
+      {required this.matric,
+      required this.password,
+      required this.fname,
+      required this.lname,
+      required this.modelData,
+      this.imgLink
+      // required this.imgFile,
+      });
 
   static User fromMap(Map<String, dynamic> user) {
     return new User(
@@ -26,7 +28,8 @@ class User {
         password: user['password'],
         fname: user['fname'],
         lname: user['fname'],
-        modelData: jsonDecode(user['model_data']));
+        modelData: jsonDecode(user['model_data']),
+        imgLink: user['imgLink']);
     // imgFile: user['imgFile'].toString());
   }
 
@@ -37,6 +40,8 @@ class User {
       'fname': fname,
       'lname': lname,
       'model_data': jsonEncode(modelData),
+      'imgLink': imgLink
+
       // 'imgFile': imgFile,
     };
   }
@@ -46,6 +51,7 @@ class User {
         matric = doc.data()!["matric"],
         password = doc.data()!["password"],
         fname = doc.data()!['fname'],
-        lname = doc.data()!['lname'];
+        lname = doc.data()!['lname'],
+        imgLink = doc.data()!['imgLink'];
   // imgFile = doc.data()!['imgFile'];
 }

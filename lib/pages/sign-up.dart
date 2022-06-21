@@ -25,7 +25,7 @@ class SignUpState extends State<SignUp> {
   String? imagePath;
   Face? faceDetected;
   Size? imageSize;
-  File? imgTest;
+  File? imgFile;
 
   bool _detectingFaces = false;
   bool pictureTaken = false;
@@ -74,20 +74,20 @@ class SignUpState extends State<SignUp> {
       return {'1': false, '2': 'NO IMAGE'};
     } else {
       _saving = true;
-      await Future.delayed(Duration(milliseconds: 500));
+      // await Future.delayed(Duration(milliseconds: 500));
       // await _cameraService.cameraController?.stopImageStream();
       await Future.delayed(Duration(milliseconds: 200));
       XFile? file = await _cameraService.takePicture();
       imagePath = file?.path;
-      imgTest = (File(imagePath!));
+      imgFile = (File(imagePath!));
       setState(() {
         _bottomSheetVisible = true;
         pictureTaken = true;
-        imgTest = (File(imagePath!));
+        imgFile = (File(imagePath!));
         // print('IMAGE TEST ${imgTest}');
       });
 
-      return {'1': true, '2': imgTest};
+      return {'isDetected': true, 'imgFile': imgFile};
     }
   }
 

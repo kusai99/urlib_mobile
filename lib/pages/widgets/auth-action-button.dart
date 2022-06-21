@@ -21,8 +21,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 int? status;
 bool check_face = false;
-final storageRef = FirebaseStorage.instance.ref();
-final newImage = storageRef.child("new/");
+// final storageRef = FirebaseStorage.instance.ref();
+// final newImage = storageRef.child("images/test/");
 
 class AuthActionButton extends StatefulWidget {
   AuthActionButton(
@@ -56,7 +56,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
 
   User? predictedUser;
 
-  Future _signUp(context) async {
+  Future _signUp(context, File imgFile) async {
     // print(widget.img);
     DatabaseHelper _databaseHelper = DatabaseHelper.instance;
     List predictedData = _mlService.predictedData;
@@ -92,8 +92,6 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                 );
               },
             ),
-            // Navigator.push(context,
-            //     MaterialPageRoute(builder: (BuildContext context) => SignUp()))
           }
         : status == 2
             ? {
@@ -106,16 +104,19 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                     );
                   },
                 ),
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (BuildContext context) => SignUp()))
               }
             : status == 0
                 ? {
+                    await FirebaseStorage.instance
+                        .ref('images/${_matricTextEditingController.text}')
+                        .putFile(imgFile),
+                    userToSave.imgLink = await FirebaseStorage.instance
+                        .ref('images/${_matricTextEditingController.text}')
+                        .getDownloadURL(),
+                    print('USER TO SAVE ${userToSave.imgLink}'),
                     await _databaseHelper.insertUser(userToSave),
                     this._mlService.setPredictedData([]),
-                    // await newImage.putFile(widget.img!),
+                    print('imgfile in _signup ${imgFile.toString()}'),
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -217,25 +218,27 @@ class _AuthActionButtonState extends State<AuthActionButton> {
   Future onTap() async {
     try {
       Map<String, Object?> onPressedData = await widget.onPressed();
-      dynamic faceDetected = onPressedData['1'];
-      dynamic imgFile = onPressedData['2'];
+      dynamic faceDetected = onPressedData['isDetected'];
+      dynamic imgFile = onPressedData['imgFile'];
+      // File newImgFile = igFile;
+
       // bool faceDetected = onPressedData{['1']};
       print('detected?  ${faceDetected}');
       print('image file:  ${imgFile.toString()}');
       // print('ON TAP PARAMETER ZERO ${faceDetected}');
-      // if (faceDetected) {
-      //   if (widget.isLogin) {
-      //     var user = await _predictUser();
-      //     if (user != null) {
-      //       this.predictedUser = user;
-      //     }
-      //   }
+      if (faceDetected) {
+        if (widget.isLogin) {
+          var user = await _predictUser();
+          if (user != null) {
+            this.predictedUser = user;
+          }
+        }
 
-      //   PersistentBottomSheetController bottomSheetController =
-      //       Scaffold.of(context)
-      //           .showBottomSheet((context) => signSheet(context));
-      //   bottomSheetController.closed.whenComplete(() => widget.reload());
-      // }
+        PersistentBottomSheetController bottomSheetController =
+            Scaffold.of(context)
+                .showBottomSheet((context) => signSheet(context, imgFile));
+        bottomSheetController.closed.whenComplete(() => widget.reload());
+      }
     } catch (e) {
       print(e);
     }
@@ -279,8 +282,8 @@ class _AuthActionButtonState extends State<AuthActionButton> {
     );
   }
 
-  signSheet(BuildContext context) {
-    // print('img string  inside sign sheet ${img}');
+  signSheet(BuildContext context, File imgFile) {
+    print('img string  inside sign sheet ${imgFile.toString()}');
     return Container(
       padding: EdgeInsets.all(20),
       child: Column(
@@ -350,7 +353,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                         ? AppButton(
                             text: 'Register',
                             onPressed: () async {
-                              await _signUp(context);
+                              await _signUp(context, imgFile);
                             },
                             icon: Icon(
                               Icons.person_add,
