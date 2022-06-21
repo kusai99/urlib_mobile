@@ -1,6 +1,5 @@
 import 'package:face_net_authentication/locator.dart';
 import 'package:face_net_authentication/pages/models/user.model.dart';
-import 'package:face_net_authentication/pages/profile.dart';
 import 'package:face_net_authentication/pages/widgets/app_button.dart';
 import 'package:face_net_authentication/pages/widgets/app_text_field.dart';
 import 'package:face_net_authentication/pages/widgets/home.dart';

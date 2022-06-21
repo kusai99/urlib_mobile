@@ -1,4 +1,3 @@
-import 'package:face_net_authentication/constants/constants.dart';
 import 'package:face_net_authentication/locator.dart';
 import 'package:face_net_authentication/pages/db/databse_helper.dart';
 import 'package:face_net_authentication/pages/sign-in.dart';
@@ -38,10 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
     await Firebase.initializeApp();
     setState(() => loading = false);
   }
-
-  void _launchURL() async => await canLaunch(Constants.githubURL)
-      ? await launch(Constants.githubURL)
-      : throw 'Could not launch ${Constants.githubURL}';
 
   @override
   Widget build(BuildContext context) {

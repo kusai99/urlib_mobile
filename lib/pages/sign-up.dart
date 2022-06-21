@@ -1,4 +1,5 @@
 import 'dart:async';
+// import 'dart:ffi';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:face_net_authentication/locator.dart';
@@ -24,6 +25,7 @@ class SignUpState extends State<SignUp> {
   String? imagePath;
   Face? faceDetected;
   Size? imageSize;
+  File? imgTest;
 
   bool _detectingFaces = false;
   bool pictureTaken = false;
@@ -58,7 +60,7 @@ class SignUpState extends State<SignUp> {
     _frameFaces();
   }
 
-  Future<bool> onShot() async {
+  Future<Map<String, Object?>> onShot() async {
     if (faceDetected == null) {
       showDialog(
         context: context,
@@ -69,7 +71,7 @@ class SignUpState extends State<SignUp> {
         },
       );
 
-      return false;
+      return {'1': false, '2': 'NO IMAGE'};
     } else {
       _saving = true;
       await Future.delayed(Duration(milliseconds: 500));
@@ -77,13 +79,15 @@ class SignUpState extends State<SignUp> {
       await Future.delayed(Duration(milliseconds: 200));
       XFile? file = await _cameraService.takePicture();
       imagePath = file?.path;
-
+      imgTest = (File(imagePath!));
       setState(() {
         _bottomSheetVisible = true;
         pictureTaken = true;
+        imgTest = (File(imagePath!));
+        // print('IMAGE TEST ${imgTest}');
       });
 
-      return true;
+      return {'1': true, '2': imgTest};
     }
   }
 
@@ -142,7 +146,7 @@ class SignUpState extends State<SignUp> {
     final double mirror = math.pi;
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
+    // print('imgTest inside build ${imgTest}');
     late Widget body;
     if (_initializing) {
       body = Center(
@@ -209,6 +213,7 @@ class SignUpState extends State<SignUp> {
             ? AuthActionButton(
                 onPressed: onShot,
                 isLogin: false,
+                // img: imgTest,
                 reload: _reload,
               )
             : Container());

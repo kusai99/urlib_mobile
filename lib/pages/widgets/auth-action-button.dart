@@ -1,8 +1,7 @@
 import 'package:face_net_authentication/locator.dart';
 import 'package:face_net_authentication/pages/db/databse_helper.dart';
 import 'package:face_net_authentication/pages/models/user.model.dart';
-import 'package:face_net_authentication/pages/profile.dart';
-import 'package:face_net_authentication/pages/sign-up.dart';
+import 'package:face_net_authentication/pages/sign-up.dart' as signup;
 import 'package:face_net_authentication/pages/widgets/app_button.dart';
 import 'package:face_net_authentication/pages/widgets/home.dart';
 import 'package:face_net_authentication/services/camera.service.dart';
@@ -10,25 +9,33 @@ import 'package:face_net_authentication/services/ml_service.dart';
 import 'package:face_net_authentication/styles/colors.dart';
 import 'package:face_net_authentication/tabs/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart';
+// import 'package:image/image.dart';
+import 'dart:convert';
 import '../landing.dart';
 import 'app_text_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:face_net_authentication/main.dart';
 import 'package:face_net_authentication/main.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 int? status;
 bool check_face = false;
+final storageRef = FirebaseStorage.instance.ref();
+final newImage = storageRef.child("new/");
 
 class AuthActionButton extends StatefulWidget {
   AuthActionButton(
       {Key? key,
+      // required this.img,
       required this.onPressed,
       required this.isLogin,
       required this.reload});
   final Function onPressed;
   final bool isLogin;
   final Function reload;
+  // final File? img;
+
   @override
   _AuthActionButtonState createState() => _AuthActionButtonState();
 }
@@ -45,17 +52,22 @@ class _AuthActionButtonState extends State<AuthActionButton> {
       TextEditingController(text: '');
   final TextEditingController _passwordTextEditingController =
       TextEditingController(text: '');
+  File? img;
 
   User? predictedUser;
 
   Future _signUp(context) async {
+    // print(widget.img);
     DatabaseHelper _databaseHelper = DatabaseHelper.instance;
     List predictedData = _mlService.predictedData;
     String matric = _matricTextEditingController.text;
     String fname = _fnameTextEditingController.text;
     String lname = _lnameTextEditingController.text;
     String password = _passwordTextEditingController.text;
+    // File? imgFile = widget.img;
+    // print('IMAGE string INSIDE SIGNUP ${widget.img}');
     User userToSave = User(
+      // imgFile: widget.img.toString(),
       matric: matric,
       fname: fname,
       lname: lname,
@@ -103,6 +115,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                 ? {
                     await _databaseHelper.insertUser(userToSave),
                     this._mlService.setPredictedData([]),
+                    // await newImage.putFile(widget.img!),
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -203,19 +216,26 @@ class _AuthActionButtonState extends State<AuthActionButton> {
 
   Future onTap() async {
     try {
-      bool faceDetected = await widget.onPressed();
-      if (faceDetected) {
-        if (widget.isLogin) {
-          var user = await _predictUser();
-          if (user != null) {
-            this.predictedUser = user;
-          }
-        }
-        PersistentBottomSheetController bottomSheetController =
-            Scaffold.of(context)
-                .showBottomSheet((context) => signSheet(context));
-        bottomSheetController.closed.whenComplete(() => widget.reload());
-      }
+      Map<String, Object?> onPressedData = await widget.onPressed();
+      dynamic faceDetected = onPressedData['1'];
+      dynamic imgFile = onPressedData['2'];
+      // bool faceDetected = onPressedData{['1']};
+      print('detected?  ${faceDetected}');
+      print('image file:  ${imgFile.toString()}');
+      // print('ON TAP PARAMETER ZERO ${faceDetected}');
+      // if (faceDetected) {
+      //   if (widget.isLogin) {
+      //     var user = await _predictUser();
+      //     if (user != null) {
+      //       this.predictedUser = user;
+      //     }
+      //   }
+
+      //   PersistentBottomSheetController bottomSheetController =
+      //       Scaffold.of(context)
+      //           .showBottomSheet((context) => signSheet(context));
+      //   bottomSheetController.closed.whenComplete(() => widget.reload());
+      // }
     } catch (e) {
       print(e);
     }
@@ -223,6 +243,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
 
   @override
   Widget build(BuildContext context) {
+    // final File imgBuild = widget.img!;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -259,6 +280,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
   }
 
   signSheet(BuildContext context) {
+    // print('img string  inside sign sheet ${img}');
     return Container(
       padding: EdgeInsets.all(20),
       child: Column(
