@@ -6,11 +6,14 @@ import 'pages/landing.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-const SERVER_IP = 'http://192.168.239.21:8000';
+const SERVER_IP = 'http://192.168.141.21:8000';
 final storage = FlutterSecureStorage();
 
-void main() {
+void main() async {
+  // await Firebase.initializeApp();
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

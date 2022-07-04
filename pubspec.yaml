@@ -44,6 +44,7 @@ dependencies:
   cloud_firestore: ^3.1.17
   flutter_secure_storage: ^5.0.2
   http: ^0.13.4
+  flutter_svg: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -71,7 +72,7 @@ flutter:
     - assets/mobilefacenet.tflite
     - assets/images/urLib.png
     - assets/images/urLib nobg.png
-
+    - assets/images/reg.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

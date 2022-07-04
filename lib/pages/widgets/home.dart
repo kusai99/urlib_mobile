@@ -114,39 +114,39 @@ class _HomeState extends State<Home> {
                   Center(
                     child: Column(
                       children: [
-                        FittedBox(
-                          fit: BoxFit.cover,
-                          child: CircleAvatar(
-                            minRadius: 80,
-                            backgroundImage: AssetImage(
-                              'assets/images/std image.jpg',
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 25),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Welcome ",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w600),
-                            ),
-                            Text(
-                              "Omar Ahmed",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: clrStone,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
+                        // FittedBox(
+                        //   fit: BoxFit.cover,
+                        //   child: CircleAvatar(
+                        //     minRadius: 80,
+                        //     backgroundImage: AssetImage(
+                        //       'assets/images/std image.jpg',
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 25),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text(
+                        //       "Welcome ",
+                        //       style: TextStyle(
+                        //           fontSize: 25, fontWeight: FontWeight.w600),
+                        //     ),
+                        //     Text(
+                        //       "Omar Ahmed",
+                        //       style: TextStyle(
+                        //           fontSize: 25,
+                        //           color: clrStone,
+                        //           fontWeight: FontWeight.w600),
+                        //     ),
+                        //   ],
+                        // ),
                         SizedBox(height: 40),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 0),
                           child: Center(
                             child: Text(
-                              "Here Are Some Book Recommendations Made Just For You",
+                              "Your borrow log",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18,

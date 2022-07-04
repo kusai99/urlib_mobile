@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "442987695030",
+    "firebase_url": "https://test-facenet-e66ef-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "test-facenet-e66ef",
+    "storage_bucket": "test-facenet-e66ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442987695030:android:936689be6f308a22498f17",
+        "android_client_info": {
+          "package_name": "com.example.FaceNet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442987695030-stmtebgs34idd1vee8vv4k3k8skn6mpk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj_zvBbp80da5JTXntqf0jDjSUUvfVJik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "442987695030-stmtebgs34idd1vee8vv4k3k8skn6mpk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

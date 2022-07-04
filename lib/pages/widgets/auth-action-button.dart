@@ -2,6 +2,7 @@ import 'package:face_net_authentication/locator.dart';
 import 'package:face_net_authentication/pages/db/databse_helper.dart';
 import 'package:face_net_authentication/pages/models/user.model.dart';
 import 'package:face_net_authentication/pages/sign-up.dart' as signup;
+import 'package:face_net_authentication/pages/thank_you.dart';
 import 'package:face_net_authentication/pages/widgets/app_button.dart';
 import 'package:face_net_authentication/pages/widgets/home.dart';
 import 'package:face_net_authentication/services/camera.service.dart';
@@ -58,6 +59,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
 
   Future _signUp(context, File imgFile) async {
     // print(widget.img);
+    print('inside signup');
     DatabaseHelper _databaseHelper = DatabaseHelper.instance;
     List predictedData = _mlService.predictedData;
     String matric = _matricTextEditingController.text;
@@ -120,7 +122,9 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => MyHomePage()))
+                            builder: (BuildContext context) => ThankYouPage(
+                                  title: 'Thank you for your registration! ',
+                                )))
                   }
                 : () {};
   }
@@ -134,6 +138,7 @@ class _AuthActionButtonState extends State<AuthActionButton> {
       "lname": lname,
       "pw": password,
     });
+    print("RES BODY${res.body}");
     if (res.body
         .contains('A user with that matric/staff number already exists')) {
       return 409;
